@@ -2,64 +2,38 @@
 //require 'connexion.php';
 //require 'connexion.php';
 
-if (ini_get('magic_quotes_gpc')) {
- function stripslashes_profond($valeur)
- {
-  $valeur = is_array($valeur) ? array_map('stripslashes_profond', $valeur) : stripslashes($valeur);
-  return $valeur;
- }
- $_POST = array_map('stripslashes_profond', $_POST);
- $_GET = array_map('stripslashes_profond', $_GET);
- $_COOKIE = array_map('stripslashes_profond', $_COOKIE);
- $_REQUEST = array_map('stripslashes_profond', $_REQUEST);
-}
-
+require  '../blagues/includes/bdi.inc.php';
+include  './includes/magicquotes.inc.php';
 /*$query = 'SELECT * FROM blagues';
 if (!mysqli_query($lien, $query)) {
  $erreur =  'Erreur dans la requête' . mysqli_error($lien);
  exit();
 }*/
 
-
-
-
-
-
-
-
-
-
-
-
-
 if (isset($_POST['texte_blague'])) {
- include 'bdi.inc.php';
+ //include 'bdi.inc.php';
  $texte_blague = mysqli_real_escape_string($lien, $_POST['texte_blague']);
- $date_blague = time();
- $query = 'INSERT INTO blagues (texte_date, date_blague) VALUES ("' . $texte_blague . ' " , $date_blague)';
+ $date_blague =
+  date('Y-m-d H:i:s');
+ $query = "INSERT INTO blagues (texte_date, date_blague) VALUES (' " . $texte_blague . " '  , $date_blague)";
  if (!mysqli_query($lien, $query)) {
   $erreur = 'Erreur pour ajouter la blague' . mysqli_error($lien);
   echo mysqli_error($lien);
 
   exit();
  }
- header('Location : .');
+ header('Location : index.php');
  exit();
 }
 
 
 
-//require 'blagues.html.php';
-if (isset($_GET['ajoutblague'])) {
- require 'form.html.php';
- exit();
-}
 /////Supprimer une blague 
 if (isset($_GET['supprblague'])) {
- include 'bdi.inc.php';
+ //include 'bdi.inc.php';
 
  $id = mysqli_real_escape_string($lien, $_POST['id']);
- $query = 'DELETE FROM blagues WHERE id = "$id"';
+ $query = "DELETE FROM blagues WHERE id = '$id'";
  if (!mysqli_query($lien, $query)) {
   $erreur = 'Erreur dans la suppression de la blague' .   mysqli_error($lien);
   exit();
@@ -67,7 +41,7 @@ if (isset($_GET['supprblague'])) {
  header('Location : .');
  die();
 }
-include 'bdi.inc.php';
+//include 'bdi.inc.php';
 
 $query = 'SELECT blagues.id, texte_blague, nom, mails.mail FROM blagues INNER JOIN auteurs ON blagues.id_auteur = auteurs.id INNER JOIN mails ON auteurs.id = mails.id_auteur';
 
@@ -85,3 +59,9 @@ while ($ligne = mysqli_fetch_array($resultat)) {
 }
 
 include 'blagues.html.php';
+
+//require 'blagues.html.php';
+if (isset($_GET['ajoutblague'])) {
+ require 'form.html.php';
+ exit();
+}

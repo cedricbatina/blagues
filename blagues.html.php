@@ -1,3 +1,5 @@
+<?php
+include './includes/auxiliaires.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,23 +22,28 @@
   <h1 class="text-center">
    Voici toutes les blagues
   </h1>
-  <?php foreach ($blagues as $blague) : ?>
-   <div>
+  <?php
+  if (isset($blagues)) {
+   foreach ($blagues as $blague) : ?>
 
-    <blockquote>
-     <p>
-      <?php echo htmlspecialchars($blague['texte_blague'], ENT_QUOTES, 'UTF-8'); ?>
+    <div>
+     <form action="?supprblague" method="POST">
+      <blockquote>
+       <p>
+        <?php print_html($blague['texte_blague']); ?>
+        <input type="hidden" name="id" value="<?php echo $blague['id']; ?>">
+        <input type="submit" value="SUPPRIMER">
+       </p>
+      </blockquote>
+     </form>
+    </div>
 
-     </p>
-     <p> <?php echo htmlspecialchars($blague['nom'], ENT_QUOTES, 'UTF-8'); ?> <?php echo htmlspecialchars($blague['mail'],  ENT_QUOTES, 'UTF-8'); ?> </p>
-     <a href="?supprblague<?php echo $blague['id']; ?>">Supprimer</a>
-    </blockquote>
-   </div>
-
-  <?php endforeach; ?>
+  <?php
+   endforeach;
+  }  ?>
  </div>
  </div>
- <?php include 'pied_page_statique.inc.html.php'; ?>
+ <?php include './includes/pied_page_statique.inc.html.php'; ?>
 </body>
 
 </html>
