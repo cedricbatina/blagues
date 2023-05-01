@@ -3,6 +3,7 @@
 include($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/bdi.inc.php');
 
 include($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/magicquotes.inc.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/acces.inc.php');
 
 
 /*$query = "DELETE FROM categories WHERE id = '$id'";
@@ -11,14 +12,27 @@ if (!$resultat) {
  $erreur = "Impossible de supprimer cette catégorie";
  die();
 }*/
+if (!utilisateurEstConnecte()) {
+ include '../connexion.html.php';
+ exit();
+}
+////
+if (!roleUtilisateur('Administrateur du site')) {
+ $erreur = 'Seuls les administrateurs du site peuvent accéder à cette page.';
+ include '../accesrefuse.html.php';
+ exit();
+}
+
+
+
 if (isset($_GET['ajout'])) {
  $titre_page = 'Nouvelle catégorie';
  $action = 'ajoutfom';
  $nom = '';
  $id = '';
  $bouton = 'Ajouter catégorie';
- include 'form.html.php';
- exit();
+ include_once './admin/categories/form.html.php';
+ //exit();
 }
 if (isset($_GET['ajoutform'])) {
 
@@ -38,6 +52,8 @@ if (isset($_GET['ajoutform'])) {
 
 if (isset($_POST['action']) and $_POST['action'] == 'Modifier') {
  $id = mysqli_real_escape_string($lien, $_POST['id']);
+ $query = "SELECT id, nom FROM categories WHERE id = '$id'";
+ $resultat = mysqli_query($lien, $query);
  if (!$resultat) {
   $erreur = 'Erreur de récupération des détails de la catégorie.';
   exit();

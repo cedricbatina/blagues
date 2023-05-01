@@ -1,15 +1,38 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/bdi.inc.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/magicquotes.inc.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/acces.inc.php');
+
+if (!utilisateurEstConnecte()) {
+ include '../connexion.html.php';
+ exit();
+}
+if (!roleUtilisateur('Administrateur de comptes')) {
+ $erreur = 'Seuls les administrateurs de comptes peuvent accéder à cette page.';
+ include '../accesrefuse.html.php';
+ exit();
+}
+
+
+
 $query = 'SELECT id , nom FROM auteurs';
 $resultat = mysqli_query($lien, $query);
 if (!$resultat) {
  $erreur = 'Impossible de lire la liste des auteurs' .  mysqli_error($lien);
  exit();
 }
-while ($ligne = mysqli_fetch_array($resultat)) {
- $auteurs[] = array('id' => $ligne['id'], 'nom' => $ligne['nom']);
+/////
+if (mysqli_num_rows($resultat) > 0) {
+ $auteurs = array();
+
+ while ($ligne = mysqli_fetch_array($resultat)) {
+  $auteurs[] = array('id' => $ligne['id'], 'nom' => $ligne['nom']);
+ }
+} else {
+ $erreur = "Impossible d'afficher la liste ";
 }
+/////////
+
 include 'auteurs.html.php';
 
 ////Suppression de l'auteur

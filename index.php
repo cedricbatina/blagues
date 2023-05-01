@@ -2,8 +2,8 @@
 //require 'connexion.php';
 //require 'connexion.php';
 
-require  '../blagues/includes/bdi.inc.php';
-include  './includes/magicquotes.inc.php';
+include($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/bdi.inc.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/magicquotes.inc.php');
 /*$query = 'SELECT * FROM blagues';
 if (!mysqli_query($lien, $query)) {
  $erreur =  'Erreur dans la requête' . mysqli_error($lien);
@@ -15,7 +15,7 @@ if (isset($_POST['texte_blague'])) {
  $texte_blague = mysqli_real_escape_string($lien, $_POST['texte_blague']);
  $date_blague =
   date('Y-m-d H:i:s');
- $query = "INSERT INTO blagues (texte_date, date_blague) VALUES (' " . $texte_blague . " '  , $date_blague)";
+ $query = "INSERT INTO blagues (texte_date, date_blague) VALUES (' " . $texte_blague . " '  , '$date_blague')";
  if (!mysqli_query($lien, $query)) {
   $erreur = 'Erreur pour ajouter la blague' . mysqli_error($lien);
   echo mysqli_error($lien);
@@ -25,7 +25,6 @@ if (isset($_POST['texte_blague'])) {
  header('Location : index.php');
  exit();
 }
-
 
 
 /////Supprimer une blague 
@@ -53,15 +52,18 @@ if (!$resultat) {
   'Erreur de lecture de la blague' .   mysqli_error($lien);
  exit();
 }
-while ($ligne = mysqli_fetch_array($resultat)) {
- $blagues[] = array('id' => $ligne['id'], 'texte_blague' => $ligne['texte_blague'], 'nom' => $ligne['nom'], 'mail' => $ligne['mail']);
- //$auteurs[] = array('id' => $ligne['id'], 'nom' => $ligne['nom']);
-}
+if (mysqli_num_rows($resultat) > 0) {
+ $blagues = array();
 
-include 'blagues.html.php';
+ while ($ligne = mysqli_fetch_array($resultat)) {
+  $blagues[] = array('id' => $ligne['id'], 'texte_blague' => $ligne['texte_blague'], 'nom' => $ligne['nom'], 'mail' => $ligne['mail']);
+  //$auteurs[] = array('id' => $ligne['id'], 'nom' => $ligne['nom']);
+ }
+}
 
 //require 'blagues.html.php';
 if (isset($_GET['ajoutblague'])) {
  require 'form.html.php';
  exit();
 }
+include 'blagues.html.php';
