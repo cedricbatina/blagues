@@ -47,6 +47,17 @@ include($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/auxiliaires.inc.php'); ?>
       endforeach;
     }  ?>
   </div>
+  <div>
+    <form action="index.php" enctype="multipart/form-data">
+      <div>
+        <label for="depot" id="depot">Choisissez le fichier à déposer:
+          <input type="file" id="depot" name="depot"></label>
+      </div>
+      <div>
+        <input type="hidden" name="action" value="depot">
+        <input type="submit" value="Envoi">
+      </div>
+    </form>
   </div>
   <?php include './includes/pied_page_statique.inc.html.php'; ?>
 </body>

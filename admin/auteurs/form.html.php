@@ -26,6 +26,22 @@
     <label for="mail">Mail : <input type="text" name="mail" id="mail" value="<?php print_html($mail); ?>"> </label>
 
    </div>
+   <div>
+    <label for="mdp">Configurer le mot de passe : <input type="password" name="mdp" id="mdp" /> </label>
+   </div>
+   <fieldset>
+    <legend>Rôles : </legend>
+    <?php for ($i = 0; $i < count($roles); $i++) : ?>
+     <div>
+      <label for="role<?php echo $i; ?>">
+       <input type="checkbox" name="roles[]" id="role<?php echo $i; ?>" value="<?php print_html($roles[$i]['id']); ?>" <?php if ($roles[$i]['selected']) {
+                                                                                                                       echo 'checked = checked';
+                                                                                                                      }; ?> /><?php print_html($roles[$i]['id']); ?></label>
+      <?php print_html($roles[$i]['description']); ?>
+     </div> <?php endfor; ?>
+   </fieldset>
+
+
    <div><input type="hidden" name="id" value="<?php print_html($id); ?>">
     <input type="submit" value="<?php print_html($bouton); ?>">
    </div>

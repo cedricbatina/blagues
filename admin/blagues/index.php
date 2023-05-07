@@ -63,7 +63,7 @@ if (!$resultat) {
  exit();
 }
 $ligne = mysqli_fetch_array($resultat);
-if (mysqli_num_rows($ligne) > 0) {
+if (mysqli_num_rows($resultat) > 0) {
  while ($ligne) {
   $blagues[] = array('id' => $ligne['id'], 'texte_blage' => $ligne['texte_blague']);
  }
@@ -105,7 +105,7 @@ if (!$resultat) {
  //exit();
 }
 $ligne = mysqli_fetch_array($resultat);
-if (mysqli_num_rows($ligne) > 0) {
+if (mysqli_num_rows($resultat) > 0) {
  while ($ligne) {
   $auteurs[] = array('id' => $ligne['id'], 'nom' => $ligne['nom']);
  }
@@ -121,7 +121,7 @@ if (!$resultat) {
  exit();
 }
 $ligne = mysqli_fetch_array($resultat);
-if (mysqli_num_rows($ligne) > 0) {
+if (mysqli_num_rows($resultat) > 0) {
  while ($ligne) {
   $categSelectionnees[] = $ligne['id_categ'];
  }
@@ -139,7 +139,7 @@ if (!$resultat) {
 }
 $ligne = mysqli_fetch_array($resultat);
 $ligne = mysqli_fetch_array($resultat);
-if (mysqli_num_rows($ligne) > 0) {
+if (mysqli_num_rows($resultat) > 0) {
  while ($ligne) {
   while ($ligne) {
    $categories[] = array('id' => $ligne['id'], 'nom' => $ligne['nom'], 'selected' => in_array($ligne['id'], $categSelectionnees));
@@ -155,7 +155,8 @@ include 'form.html.php';
 if (isset($_GET['ajoutform'])) {
  $texte = mysqli_real_escape_string($lien, $_POST['texte']);
  $auteur = mysqli_real_escape_string($lien, $_post['auteur']);
- $date_blague = date();
+ $date_blague = date('Y-m-d');
+
  $id_auteur = $auteur;
  $query = "INSERT INTO blagues  (texte_blague, date_blague, id_auteur) VALUES ('$texte', '$date_blague', '$auteur') ";
  $resultat = mysqli_query($lien, $query);

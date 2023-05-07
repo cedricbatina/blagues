@@ -22,7 +22,7 @@ if (isset($_POST['texte_blague'])) {
 
   exit();
  }
- header('Location : index.php');
+ header('Location: index.php');
  exit();
 }
 
@@ -66,4 +66,4 @@ if (isset($_GET['ajoutblague'])) {
  require 'form.html.php';
  exit();
 }
-include 'blagues.html.php';
+include './blagues.html.php';

@@ -1,3 +1,9 @@
+<?php
+include($_SERVER['DOCUMENT_ROOT'] . '/blagues/includes/auxiliaires.inc.php');
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,11 +29,15 @@
   <?php endif; ?>
   <form action="" method="post">
    <div>
-    <label for="mail">Mail : <input type="password" name="mdp" id="mdp"> </label>
+    <div>
+     <label for="mail">Mail : <input type="mail" name="mail" id="mail"></label>
+    </div>
+
+    <label for="mdp">Mot de passe : <input type="password" name="mdp" id="mdp"> </label>
    </div>
    <div>
     <input type="hidden" name="action" value="connexion" />
-    <input type="submit" name="action" value="Connexion" />
+    <input type="submit" value="Connexion" />
    </div>
   </form>
   <p>

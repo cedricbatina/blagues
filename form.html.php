@@ -22,6 +22,7 @@
 
    </div>
    <div><button type="submit" class="btn btn-primary">Ajouter</button></div>
+   <input type="submit" name="action" value="Ajouter une blague" />
   </form>
 
  </div>
